@@ -19,9 +19,10 @@
 double old_fps;
 FILE* stream;
 
-void hook_vftable(objects::job* job, uint8_t vftable_idx, UINT func) {
-    UINT* new_vftable = (UINT*)malloc(4 * 30);
-    memcpy(new_vftable, job->vftable, 4 * 30);
+void hook_vftable(objects::job* job, size_t vftable_idx, void* func) {
+    size_t num_entries = 30;
+    void** new_vftable = (void**)malloc(sizeof(void*) * num_entries);
+    memcpy(new_vftable, job->vftable, sizeof(void*) * num_entries);
     new_vftable[vftable_idx] = func;
     job->vftable = new_vftable;
 }
